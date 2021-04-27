@@ -3,9 +3,6 @@ package my_spring;
 import java.util.List;
 import java.util.Random;
 
-/**
- * @author Evgeny Borisov
- */
 public class RandomUtil {
     private static Random random = new Random();
 

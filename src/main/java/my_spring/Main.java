@@ -8,5 +8,3 @@ public class Main {
         iRobot.cleanRoom();
     }
 }
-
-//todo go over the files and fix the indentation

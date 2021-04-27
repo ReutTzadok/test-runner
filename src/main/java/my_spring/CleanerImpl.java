@@ -1,8 +1,5 @@
 package my_spring;
 
-/**
- * @author Evgeny Borisov
- */
 public class CleanerImpl implements Cleaner {
 
     @InjectRandomInt(min = 3,max = 7)

@@ -3,8 +3,6 @@ package my_spring;
 
 @Singleton
 public class IRobotImpl implements IRobot {
-
-
     {
         System.out.println("I robot was created");
     }
