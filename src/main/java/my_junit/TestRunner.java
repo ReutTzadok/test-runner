@@ -13,41 +13,54 @@ public class TestRunner {
     ObjectFactory factory = ObjectFactory.getInstance();
 
 
-    private List<Method> methodsShouldRunBeforeTests(List<Method> methods){
+    private void removeMethods(List<Method> classMethods) {
+        List<Method> notTestMethods = new ArrayList<>();
+
+        for (Method methode : classMethods) {
+            if (!methode.getName().startsWith("test"))
+                notTestMethods.add(methode);
+        }
+
+        classMethods.removeAll(notTestMethods);
+    }
+
+    //---------------------------------------------------------------------------------
+
+    private List<Method> methodsShouldRunBeforeTests(List<Method> classMethods){
         List<Method> methodRunBeforeTest = new ArrayList<>();
 
-        for (Method method : methods) {
+        for (Method method : classMethods) {
             if (method.isAnnotationPresent(RunBeforeEachTest.class))
                 methodRunBeforeTest.add(method);
         }
 
-//        methods.removeAll(methodRunBeforeTest);
+        classMethods.removeAll(methodRunBeforeTest);
 
         return methodRunBeforeTest;
     }
 
+    //---------------------------------------------------------------------------------
+
     @SneakyThrows
     public void runAllTestsOfClass(String className) {
         Class<?> aClass = Class.forName(className);
-        Object o = factory.createAndConfigObject(Class.forName(className));
 
-        List<Method> classMethods = Arrays.asList(o.getClass().getDeclaredMethods());
-        List<Method> methodRunBeforeTest = methodsShouldRunBeforeTests(classMethods);
+        List<Method> classTestMethods = new ArrayList<>(Arrays.asList(aClass.getDeclaredMethods()));
 
-        for (Method method : classMethods) {
-            if (methodRunBeforeTest.contains(method))
-                    continue;
+        List<Method> methodRunBeforeTest = methodsShouldRunBeforeTests(classTestMethods);
 
+        removeMethods(classTestMethods);
+
+        for (Method method : classTestMethods) {
             Object tmp = factory.createAndConfigObject(aClass);
+
+            //I'm not sure if this methods should run before the first test or before each test.
+            //if this methods should be run only once, this loop move out from the current loop.
             for (Method firstMethods : methodRunBeforeTest) {
                 firstMethods.invoke(tmp);
             }
 
-//            Class<?>[] args = method.getParameterTypes();
             method.invoke(tmp);
         }
-
-
-        //todo finish this by JUnit convention
     }
 }
