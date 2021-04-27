@@ -2,8 +2,11 @@ package my_spring;
 
 public class Main {
     public static void main(String[] args) {
-//        IRobot iRobot = ObjectFactory.getInstance().createObject(IRobot.class);
-//        IRobot iRobot2 = ObjectFactory.getInstance().createObject(IRobot.class);
-//        iRobot.cleanRoom();
+        ApplicationContext context = new ApplicationContext();
+        IRobot iRobot = context.getObject(IRobot.class);
+        IRobot iRobot2 = context.getObject(IRobot.class);
+        iRobot.cleanRoom();
     }
 }
+
+//todo go over the files and fix the indentation

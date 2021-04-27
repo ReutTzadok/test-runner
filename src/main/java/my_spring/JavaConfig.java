@@ -9,7 +9,7 @@ public class JavaConfig implements Config {
     private Map<Class,Class> ifc2ImplClass = new HashMap<>();
 
     public JavaConfig() {
-        ifc2ImplClass.put(Speaker.class, ConsoleSpeaker.class); //TODO add the classes to inf2ImplClass
+        ifc2ImplClass.put(Speaker.class, SpeakerImpl.class);
     }
 
     @Override
